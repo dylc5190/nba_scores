@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Scores</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .game-card {
+            background: white;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 5px solid transparent;
+        }
+
+        .game-card.close-game {
+            border-left-color: #ff9800;
+            background-color: #fff3e0;
+        }
+
+        .team {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .score {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .hidden-score {
+            color: #d84315;
+            font-style: italic;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .status {
+            color: #666;
+            font-size: 0.9rem;
+            text-align: right;
+            min-width: 100px;
+        }
+
+        .vs {
+            color: #aaa;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>NBA Scoreboard</h1>
+    {% if games %}
+    {% for game in games %}
+    <div class="game-card {% if game.hide_score %}close-game{% endif %}">
+        <div class="teams">
+            <span class="team">{{ game.away_team }}</span>
+            <span class="vs">vs</span>
+            <span class="team">{{ game.home_team }}</span>
+        </div>
+        <div class="result">
+            {% if game.hide_score %}
+            <span class="hidden-score">Scores Hidden (Close Game!)</span>
+            <br>
+            <a href="{{ game.youtube_url }}" target="_blank"
+                style="color: #d84315; text-decoration: underline; font-size: 0.9rem;">Watch on YouTube</a>
+            {% else %}
+            <span class="score">{{ game.away_score }} - {{ game.home_score }}</span>
+            {% endif %}
+        </div>
+        <div class="status">
+            {{ game.status }}
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p style="text-align: center;">No games available.</p>
+    {% endif %}
+</body>
+
+</html>
