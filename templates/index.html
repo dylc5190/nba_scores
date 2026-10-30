@@ -47,6 +47,10 @@
             color: #333;
         }
 
+        .winner {
+            color: #2e7d32;
+        }
+
         .hidden-score {
             color: #d84315;
             font-style: italic;
@@ -65,6 +69,16 @@
             color: #aaa;
             margin: 0 10px;
         }
+
+        .footnote {
+            text-align: center;
+            font-size: 0.85rem;
+            margin-top: 2rem;
+        }
+
+        .footnote a {
+            color: #666;
+        }
     </style>
 </head>
 
@@ -74,9 +88,9 @@
     {% for game in games %}
     <div class="game-card {% if game.hide_score %}close-game{% endif %}">
         <div class="teams">
-            <span class="team">{{ game.away_team }}</span>
+            <span class="team{% if game.winner == 'away' %} winner{% endif %}">{{ game.away_team }}</span>
             <span class="vs">vs</span>
-            <span class="team">{{ game.home_team }}</span>
+            <span class="team{% if game.winner == 'home' %} winner{% endif %}">{{ game.home_team }}</span>
         </div>
         <div class="result">
             {% if game.hide_score %}
@@ -85,7 +99,9 @@
             <a href="{{ game.youtube_url }}" target="_blank"
                 style="color: #d84315; text-decoration: underline; font-size: 0.9rem;">Watch on YouTube</a>
             {% else %}
-            <span class="score">{{ game.away_score }} - {{ game.home_score }}</span>
+            <span class="score{% if game.winner == 'away' %} winner{% endif %}">{{ game.away_score }}</span>
+            <span class="score"> - </span>
+            <span class="score{% if game.winner == 'home' %} winner{% endif %}">{{ game.home_score }}</span>
             {% endif %}
         </div>
         <div class="status">
@@ -96,6 +112,9 @@
     {% else %}
     <p style="text-align: center;">No games available.</p>
     {% endif %}
+    <p class="footnote">
+        <a href="https://www.ptt.cc/bbs/nba/index.html" target="_blank">PTT NBA Board</a>
+    </p>
 </body>
 
 </html>

@@ -32,7 +32,8 @@ def index():
                 'status': status_detail,
                 'is_active': status == 'in',
                 'is_completed': status == 'post',
-                'hide_score': False
+                'hide_score': False,
+                'winner': None
             }
 
             # Logic to hide scores
@@ -45,6 +46,12 @@ def index():
                     # Simple URL encoding by replacing spaces with +
                     encoded_query = query.replace(' ', '+')
                     game_info['youtube_url'] = f"https://www.youtube.com/results?search_query={encoded_query}"
+
+            if status == 'post' and not game_info['hide_score']:
+                if game_info['home_score'] > game_info['away_score']:
+                    game_info['winner'] = 'home'
+                elif game_info['away_score'] > game_info['home_score']:
+                    game_info['winner'] = 'away'
 
             games.append(game_info)
 
